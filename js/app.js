@@ -438,26 +438,28 @@ function initGallery() {
   });
   
   function openGallery(folderName, subText) {
-    // Update header
     if(title) title.textContent = folderName;
     if(subtitle) subtitle.textContent = subText;
     
-    // Populate the grid
     grid.innerHTML = '';
-    // Loop up to a reasonable max number (e.g. 10).
-    // If an image doesn't exist (like Denmark only having 3), the onerror handler removes it.
+    let loadedCount = 0;
+    
     for(let i=1; i<=10; i++) {
       const item = document.createElement('div');
       item.className = 'polaroid-item';
-      item.style.display = 'none';
       
       const img = document.createElement('img');
       img.src = `images/${folderName}/${i}.jpg`;
       img.alt = `${folderName} Photo ${i}`;
+      img.loading = 'eager';
       
       img.onload = function() {
-        item.style.display = '';
-        item.style.animation = `polaroidFadeIn 0.6s cubic-bezier(0.34, 1.56, 0.64, 1) ${i * 0.1}s both`;
+        loadedCount++;
+        const delay = loadedCount * 80;
+        setTimeout(() => {
+          item.classList.add('visible');
+          item.style.transform = `rotate(${(Math.random() * 12 - 6).toFixed(1)}deg)`;
+        }, delay);
       };
       img.onerror = function() {
         item.remove();
@@ -469,7 +471,6 @@ function initGallery() {
       
       item.appendChild(img);
       item.appendChild(caption);
-      
       grid.appendChild(item);
     }
     modal.classList.add('active');
