@@ -136,9 +136,14 @@ function goToPage(targetIndex){
   }, 500);
 }
 
-// Turn zones - click to navigate
-zoneRight.addEventListener('click', () => goToPage(currentPage + 1));
-zoneLeft.addEventListener('click', () => goToPage(currentPage - 1));
+// Turn zones logic via book element so we don't block clicks on links
+bookEl.addEventListener('click', e => {
+  if (e.target.closest('input, button, a, textarea, .nav-btn')) return;
+  const bookRect = bookEl.getBoundingClientRect();
+  const relX = e.clientX - bookRect.left;
+  if (relX < bookRect.width * 0.18) goToPage(currentPage - 1);
+  else if (relX > bookRect.width * 0.82) goToPage(currentPage + 1);
+});
 
 // Keyboard navigation
 document.addEventListener('keydown', e => {

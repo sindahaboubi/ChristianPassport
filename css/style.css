@@ -163,6 +163,7 @@ body{
   z-index: 60;
   cursor: pointer;
   transition: background 0.3s ease;
+  pointer-events: none;
 }
 .turn-zone.left{
   left: 0;
