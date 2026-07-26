@@ -323,7 +323,8 @@ function initMap() {
     { name: "Slovakia", coords: [48.6690, 19.6990], code: "sk" },
     { name: "Istanbul", coords: [41.0082, 28.9784], code: "tr" },
     { name: "Tunisia", coords: [33.8869, 9.5375], code: "tn" },
-    { name: "Indonesia", coords: [-0.7893, 113.9213], code: "id" }
+    { name: "Indonesia", coords: [-0.7893, 113.9213], code: "id" },
+    { name: "Vietnam", coords: [14.0583, 108.2772], code: "vn" }
   ];
 
   // Add markers
