@@ -1174,7 +1174,7 @@ body{
 
 /* ---------- RESPONSIVE ---------- */
 @media (max-width: 768px){
-  .navbar{ max-width: 90%; }
+  .navbar{ width: 100%; }
   .cover-title{ font-size: 28px; }
   .cover-emblem{ width: 80px; height: 80px; }
   .cover-emblem svg{ width: 80px; height: 80px; }
@@ -1248,7 +1248,8 @@ body{
   padding: 16px 14px 10px;
   display: flex;
   flex-direction: column;
-  overflow: visible;
+  overflow-y: auto;
+  overflow-x: hidden;
   z-index: 2;
 }
 
