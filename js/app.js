@@ -442,9 +442,11 @@ function initGallery() {
     if(subtitle) subtitle.textContent = subText;
     
     grid.innerHTML = '';
-    let loadedCount = 0;
+    const items = [];
+    let loaded = 0;
+    const total = 10;
     
-    for(let i=1; i<=10; i++) {
+    for(let i = 1; i <= total; i++) {
       const item = document.createElement('div');
       item.className = 'polaroid-item';
       
@@ -453,18 +455,6 @@ function initGallery() {
       img.alt = `${folderName} Photo ${i}`;
       img.loading = 'eager';
       
-      img.onload = function() {
-        loadedCount++;
-        const delay = loadedCount * 80;
-        setTimeout(() => {
-          item.classList.add('visible');
-          item.style.transform = `rotate(${(Math.random() * 12 - 6).toFixed(1)}deg)`;
-        }, delay);
-      };
-      img.onerror = function() {
-        item.remove();
-      };
-      
       const caption = document.createElement('div');
       caption.className = 'polaroid-caption';
       caption.textContent = `Memory ${i}`;
@@ -472,8 +462,25 @@ function initGallery() {
       item.appendChild(img);
       item.appendChild(caption);
       grid.appendChild(item);
+      items.push(item);
+      
+      img.onload = img.onerror = function() {
+        loaded++;
+        if(loaded === total) revealSequentially(items);
+      };
     }
+    
     modal.classList.add('active');
+    
+    function revealSequentially(items) {
+      const validItems = items.filter(el => el.querySelector('img').complete && el.querySelector('img').naturalWidth > 0);
+      validItems.forEach((item, idx) => {
+        setTimeout(() => {
+          item.style.transform = `rotate(${(Math.random() * 12 - 6).toFixed(1)}deg)`;
+          item.classList.add('visible');
+        }, idx * 100);
+      });
+    }
   }
 }
 
