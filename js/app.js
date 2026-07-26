@@ -17,7 +17,8 @@ const CONFIG = {
     { id: 'info',    file: 'pages/info.html' },
     { id: 'map',     file: 'pages/map.html' },
     { id: 'travels', file: 'pages/travels.html' },
-    { id: 'lovestory', file: 'pages/lovestory.html' }
+    { id: 'lovestory', file: 'pages/lovestory.html' },
+    { id: 'ending', file: 'pages/ending.html' }
   ]
 };
 
