@@ -1544,7 +1544,6 @@ body{
 .journey-photo:hover {
   transform: scale(1.06) translateY(-2px);
   border-color: var(--gold);
-  box-shadow: 0 6px 18px rgba(201,162,39,0.35), 0 0 0 1px rgba(201,162,39,0.4);
   z-index: 10;
 }
 .journey-photo:hover img {
@@ -1648,6 +1647,13 @@ body{
   position: relative;
   flex-grow: 1;
   display: flex;
+}
+
+
+.gallery-grid {
+  position: relative;
+  flex-grow: 1;
+  display: flex;
   flex-wrap: wrap;
   justify-content: center;
   align-content: flex-start;
@@ -1670,6 +1676,12 @@ body{
   transition: transform 0.3s ease, box-shadow 0.3s ease, z-index 0s;
   cursor: pointer;
   z-index: 1;
+  animation: polaroidFadeIn 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275) backwards;
+}
+
+@keyframes polaroidFadeIn {
+  0% { opacity: 0; top: 30px; }
+  100% { opacity: 1; top: 0; }
 }
 
 .polaroid-item:nth-child(even) { transform: rotate(4deg); }
