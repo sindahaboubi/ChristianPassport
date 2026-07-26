@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Passeport de Voyage</title>
+<link rel="preconnect" href="https://cdnjs.cloudflare.com">
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<div class="book-wrapper">
+
+  <!-- PAGE STACK (behind the book) -->
+  <div class="page-stack" id="page-stack">
+    <div class="page-stack-layer"></div>
+    <div class="page-stack-layer"></div>
+    <div class="page-stack-layer"></div>
+  </div>
+
+  <!-- BOOK -->
+  <div class="book" id="book">
+
+    <!-- PAGE TURN ZONES -->
+    <div class="turn-zone left" id="zone-left"></div>
+    <div class="turn-zone right" id="zone-right"></div>
+
+    <!-- PAGE CORNER CURLS -->
+    <div class="page-corner right-corner" id="corner-right">
+      <svg viewBox="0 0 50 50" fill="none">
+        <path d="M50 0 L50 50 L0 50 Q30 50 40 40 Q50 30 50 0Z" fill="rgba(201,162,39,0.15)"/>
+        <path d="M50 50 Q35 48 42 38 Q50 28 50 0" stroke="rgba(201,162,39,0.3)" stroke-width="0.5" fill="none"/>
+      </svg>
+    </div>
+    <div class="page-corner left-corner" id="corner-left">
+      <svg viewBox="0 0 50 50" fill="none">
+        <path d="M0 0 L0 50 L50 50 Q20 50 10 40 Q0 30 0 0Z" fill="rgba(201,162,39,0.15)"/>
+        <path d="M0 50 Q15 48 8 38 Q0 28 0 0" stroke="rgba(201,162,39,0.3)" stroke-width="0.5" fill="none"/>
+      </svg>
+    </div>
+
+    <!-- FLIP SHADOWS -->
+    <div class="flip-shadow left" id="flip-shadow-left"></div>
+    <div class="flip-shadow right" id="flip-shadow-right"></div>
+
+    <!-- PAGES (loaded dynamically) -->
+    <div id="page-cover" class="page active" style="z-index:4"></div>
+
+  </div><!-- .book -->
+
+  <!-- PAGE COUNTER -->
+  <div class="page-counter" id="page-counter">1 / 2</div>
+
+  <!-- HINT -->
+  <div class="hint" id="hint">click on the right side to turn the page</div>
+</div>
+
+<script src="js/app.js"></script>
+</body>
+</html>
