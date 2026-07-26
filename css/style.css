@@ -1182,10 +1182,12 @@ body{
 }
 
 @media (max-width: 420px){
-  .navbar{ padding: 8px 12px; margin-bottom: 12px; }
+  .navbar{ padding: 8px 12px; margin-bottom: 12px; flex-direction: column; gap: 8px; }
+  .navbar-links{ width: 100%; overflow-x: auto; flex-wrap: nowrap; justify-content: flex-start; padding-bottom: 4px; }
+  .navbar-links::-webkit-scrollbar { display: none; }
   .navbar-brand{ font-size: 11px; gap: 6px; }
   .navbar-brand svg{ width: 14px; height: 14px; }
-  .nav-btn{ font-size: 9px; padding: 5px 10px; }
+  .nav-btn{ font-size: 9px; padding: 5px 10px; flex-shrink: 0; white-space: nowrap; }
 
   #page-cover{ padding: 32px 20px; border-width: 6px; }
   #page-cover::before{ inset: 10px; }
