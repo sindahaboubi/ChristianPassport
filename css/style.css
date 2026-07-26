@@ -1749,7 +1749,7 @@ body{
 
 /* Click hint tooltip */
 .trav-card::after {
-  content: "?? Click to see memories";
+  content: "\1F449 Click to see memories";
   position: absolute;
   bottom: calc(100% + 10px);
   left: 50%;
@@ -1845,7 +1845,7 @@ body{
   border-bottom: 1px solid rgba(201,162,39,0.2);
   padding: 5px 10px;
   margin: 0 0 6px 0;
-  font-size: 7.5px;
+  font-size: 11px;
   color: rgba(201,162,39,0.85);
   letter-spacing: 0.8px;
   font-family: 'Inter', sans-serif;
@@ -1861,7 +1861,7 @@ body{
 .trav-hint-bar .hint-icon {
   display: inline-block;
   animation: tapBounce 1.5s ease-in-out infinite;
-  font-size: 12px;
+  font-size: 16px;
 }
 
 /* ============================================================
