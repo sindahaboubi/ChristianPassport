@@ -426,12 +426,15 @@ function initGallery() {
     for(let i=1; i<=10; i++) {
       const item = document.createElement('div');
       item.className = 'polaroid-item';
+      item.style.display = 'none';
       
       const img = document.createElement('img');
       img.src = `images/${folderName}/${i}.jpg`;
       img.alt = `${folderName} Photo ${i}`;
       
-      // If the image fails to load, remove the whole polaroid item
+      img.onload = function() {
+        item.style.display = '';
+      };
       img.onerror = function() {
         item.remove();
       };
