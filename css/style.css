@@ -134,6 +134,8 @@ body{
   transform: rotateY(0deg);
   transition: transform 0.35s cubic-bezier(0.77, 0, 0.175, 1);
   will-change: transform;
+  overflow-y: hidden;
+  overflow-x: hidden;
 }
 .page.active{
   pointer-events: auto;
@@ -581,9 +583,9 @@ body{
 .info-card{
   position: relative;
   width: 100%;
-  height: 100%;
+  min-height: 100%;
   padding: 18px 18px 12px;
-  overflow: hidden;
+  overflow: visible;
   display: flex;
   flex-direction: column;
   z-index: 2;
@@ -953,9 +955,9 @@ body{
 .map-card{
   position: relative;
   width: 100%;
-  height: 100%;
+  min-height: 100%;
   padding: 16px 14px 10px;
-  overflow: hidden;
+  overflow: visible;
   display: flex;
   flex-direction: column;
   background:
@@ -1167,6 +1169,25 @@ body{
   opacity: 0.4;
 }
 
+/* ---------- SCROLLABLE PAGES ---------- */
+#page-info,
+#page-travels,
+#page-lovestory,
+#page-ending,
+#page-map{
+  overflow-y: auto;
+  overflow-x: hidden;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+}
+#page-info::-webkit-scrollbar,
+#page-travels::-webkit-scrollbar,
+#page-lovestory::-webkit-scrollbar,
+#page-ending::-webkit-scrollbar,
+#page-map::-webkit-scrollbar{
+  display: none;
+}
+
 /* ---------- RESPONSIVE ---------- */
 @media (max-width: 768px){
   .navbar{ max-width: 90%; }
@@ -1177,33 +1198,197 @@ body{
 }
 
 @media (max-width: 420px){
-  .navbar{ padding: 8px 12px; margin-bottom: 12px; }
-  .navbar-brand{ font-size: 11px; gap: 6px; }
-  .navbar-brand svg{ width: 14px; height: 14px; }
-  .nav-btn{ font-size: 9px; padding: 5px 10px; }
+  body{
+    padding: 16px 8px 40px;
+    padding-left: max(8px, env(safe-area-inset-left));
+    padding-right: max(8px, env(safe-area-inset-right));
+    padding-bottom: max(40px, env(safe-area-inset-bottom));
+  }
 
-  #page-cover{ padding: 32px 20px; border-width: 6px; }
-  #page-cover::before{ inset: 10px; }
-  .cover-title{ font-size: 22px; letter-spacing: 0.08em; }
-  .cover-eyebrow{ font-size: 9px; }
-  .cover-sub{ font-size: 10px; letter-spacing: 0.15em; }
-  .cover-emblem{ width: 64px; height: 64px; margin: 16px auto; }
-  .cover-emblem svg{ width: 64px; height: 64px; }
-  .cover-plane{ width: 40px; }
-  .cover-holder{ font-size: 12px; }
-  .cover-globe{ width: 55%; }
+  /* NAVBAR - horizontal scroll on tiny screens */
+  .navbar{
+    padding: 6px 8px;
+    margin-bottom: 10px;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+    gap: 4px;
+  }
+  .navbar::-webkit-scrollbar{ display: none; }
+  .navbar-brand{ font-size: 10px; gap: 4px; white-space: nowrap; }
+  .navbar-brand svg{ width: 12px; height: 12px; }
+  .navbar-links{ gap: 3px; flex-shrink: 0; }
+  .nav-btn{ font-size: 8px; padding: 4px 8px; white-space: nowrap; letter-spacing: 0.05em; }
 
-  .info-card{ padding: 16px 14px; }
-  .info-photo-frame{ width: 100px; height: 120px; }
-  .info-name h3{ font-size: 14px; }
-  .info-grid{ grid-template-columns: 1fr; gap: 6px; }
-  .info-social{ gap: 6px; }
-  .social-box{ padding: 4px 8px; font-size: 8px; gap: 3px; }
-  .info-blue-diamond{ padding: 10px 8px; }
-  .diamond-name{ font-size: 13px; }
-  .mrz{ font-size: 8px; padding: 8px 6px; letter-spacing: 1px; }
+  /* BOOK */
+  .book{ border-radius: 4px; }
 
-  .hint{ font-size: 8px; }
+  /* COVER */
+  #page-cover{ padding: 28px 16px; border-width: 5px; }
+  #page-cover::before{ inset: 8px; }
+  .cover-title{ font-size: 20px; letter-spacing: 0.08em; }
+  .cover-eyebrow{ font-size: 8px; letter-spacing: 0.2em; }
+  .cover-sub{ font-size: 9px; letter-spacing: 0.12em; }
+  .cover-emblem{ width: 56px; height: 56px; margin: 12px auto; }
+  .cover-emblem svg{ width: 56px; height: 56px; }
+  .cover-plane{ width: 36px; }
+  .cover-holder{ font-size: 11px; letter-spacing: 0.1em; }
+  .cover-globe{ width: 50%; }
+  .cover-globe svg{ max-width: 140px; }
+
+  /* INFO PAGE */
+  .info-card{ padding: 12px 10px 8px; }
+  .info-photo-frame{ width: 90px; height: 100px; border-width: 2px; }
+  .info-photo-glow{ border-radius: 6px; }
+  .info-name h3{ font-size: 13px; letter-spacing: 0.04em; }
+  .info-flag-line{ font-size: 8px; gap: 4px; }
+  .dk-flag-mini{ width: 18px; }
+  .info-travel-symbol{ font-size: 8px; }
+  .info-label{ font-size: 8px; }
+  .info-grid{ grid-template-columns: 1fr 1fr; gap: 4px; }
+  .info-item{ padding: 4px 6px; }
+  .info-item-label{ font-size: 8px; }
+  .info-item-value{ font-size: 11px; }
+  .info-blue-diamond{ padding: 8px 6px; margin-top: 4px; }
+  .diamond-icon{ font-size: 18px; }
+  .diamond-title{ font-size: 7px; }
+  .diamond-name{ font-size: 12px; }
+  .diamond-desc{ font-size: 8px; }
+  .info-divider{ padding: 0 12px; margin: 1px 0; }
+  .social-label{ font-size: 7px; margin-bottom: 4px; }
+  .info-social{ gap: 4px; }
+  .social-box{ padding: 3px 6px; font-size: 7px; gap: 2px; border-radius: 14px; }
+  .social-box svg{ width: 12px; height: 12px; }
+  .memory-section{ margin-top: 2px; }
+  .memory-title{ font-size: 8px; margin-bottom: 4px; }
+  .memory-grid{ gap: 4px; padding: 0 2px; }
+  .memory-photo{ border-width: 1.5px; }
+  .mrz{ font-size: 7px; padding: 6px 4px; letter-spacing: 0.5px; line-height: 1.6; }
+
+  /* MAP PAGE */
+  .map-card{ padding: 10px 8px 6px; }
+  .map-title{ font-size: 14px; }
+  .map-subtitle{ font-size: 7px; }
+  .map-count{ font-size: 8px; }
+  .map-count span{ font-size: 12px; }
+  .map-body-real{ margin: 0 -2px; }
+  .map-quote{ font-size: 8px; margin-top: 4px; padding: 0 6px; }
+
+  /* TRAVELS PAGE */
+  .travels-card{ padding: 10px 8px 6px; }
+  .trav-header{ margin-bottom: 6px; padding-bottom: 6px; }
+  .trav-icon{ font-size: 18px; }
+  .trav-title{ font-size: 11px; letter-spacing: 0.1em; }
+  .trav-sub{ font-size: 7px; }
+  .trav-hint-bar{ font-size: 6.5px; padding: 3px 6px; margin-bottom: 4px; }
+  .trav-timeline{ padding: 2px 0; }
+  .trav-entry{ min-height: 34px; }
+  .trav-half{ padding: 0 4px; }
+  .trav-left{ padding-right: 6px; }
+  .trav-right{ padding-left: 6px; }
+  .trav-card{ padding: 3px 5px; gap: 3px; border-radius: 6px; }
+  .trav-flag{ width: 20px; height: 13px; }
+  .trav-names b{ font-size: 9px; }
+  .trav-names small{ font-size: 6.5px; }
+  .trav-n{ font-size: 7px; min-width: 10px; }
+  .trav-node span{ width: 8px; height: 8px; border-width: 2px; }
+  .journey-strip{ padding: 4px 0 2px; }
+  .journey-strip-label{ font-size: 6px; }
+  .journey-strip-grid{ gap: 3px; }
+  .journey-photo{ border-width: 1px; }
+  .trav-footer{ padding-top: 4px; }
+  .trav-footer-text{ font-size: 6px; }
+
+  /* LOVE STORY PAGE */
+  .lovestory-container{ padding: 16px 12px; }
+  .lock-icon{ font-size: 32px; margin-bottom: 8px; }
+  .lovestory-locked h2{ font-size: 22px; margin-bottom: 8px; }
+  .lovestory-locked p{ font-size: 12px; max-width: 90%; margin-bottom: 16px; }
+  .password-input-group input{ padding: 10px 14px; font-size: 13px; width: 100%; max-width: 200px; }
+  .password-input-group button{ padding: 10px 16px; font-size: 12px; }
+  .ls-title{ font-size: 30px; }
+  .ls-date{ font-size: 11px; margin-bottom: 16px; }
+  .ls-message{ font-size: 12px; line-height: 1.7; padding: 12px 14px; margin-bottom: 20px; }
+  .ls-highlight{ font-size: 14px; }
+  .ls-signature{ font-size: 18px; }
+  .ls-gallery{ gap: 16px; margin-top: 20px; }
+  .ls-img-wrap{ max-width: 130px; border-width: 6px; border-bottom-width: 24px; }
+  .ls-img-wrap img{ aspect-ratio: 1 / 1.1; }
+  .ls-img-caption{ font-size: 16px; bottom: -22px; }
+
+  /* ENDING PAGE */
+  .ending-content{ padding: 16px 12px; }
+  .ending-emblem-svg{ width: 50px; height: 50px; }
+  .ending-eyebrow{ font-size: 8px; }
+  .ending-title{ font-size: 36px; }
+  .ending-subtitle{ font-size: 11px; }
+  .ending-message{ font-size: 12px; max-width: 240px; line-height: 1.7; }
+  .ending-stamp{ padding: 6px 14px; }
+  .ending-stamp-text{ font-size: 9px; }
+
+  /* GALLERY MODAL */
+  .gallery-modal-content{ padding: 20px 12px; }
+  .gallery-close{ font-size: 28px; top: 10px; right: 12px; }
+  .gallery-header h2{ font-size: 24px; }
+  .gallery-header p{ font-size: 14px; }
+  .gallery-grid{ gap: 10px; padding: 6px; }
+  .polaroid-item{
+    width: calc(48% - 10px);
+    max-width: 140px;
+    padding: 6px 6px 28px 6px;
+  }
+  .polaroid-caption{ font-size: 11px; bottom: 6px; }
+
+  /* HINT BAR */
+  .hint{ font-size: 7px; margin-top: 6px; }
+
+  /* PAGE CORNER CURLS - smaller on mobile */
+  .page-corner{ width: 35px; height: 35px; }
+
+  /* TURN ZONES - narrower on mobile */
+  .turn-zone{ width: 15%; }
+}
+
+/* iPhone SE / very small screens (320px) */
+@media (max-width: 340px){
+  .navbar{ padding: 5px 6px; }
+  .nav-btn{ font-size: 7px; padding: 3px 6px; }
+  .navbar-brand{ font-size: 9px; }
+
+  .cover-title{ font-size: 18px; }
+  .cover-emblem{ width: 48px; height: 48px; }
+  .cover-emblem svg{ width: 48px; height: 48px; }
+  .cover-plane{ width: 30px; }
+  .cover-globe{ width: 45%; }
+  .cover-holder{ font-size: 10px; }
+
+  .info-photo-frame{ width: 80px; height: 88px; }
+  .info-name h3{ font-size: 12px; }
+  .info-grid{ gap: 3px; }
+  .info-item-value{ font-size: 10px; }
+
+  .trav-card{ padding: 2px 4px; gap: 2px; }
+  .trav-names b{ font-size: 8px; }
+  .trav-names small{ font-size: 6px; }
+  .trav-flag{ width: 18px; height: 12px; }
+
+  .ls-title{ font-size: 26px; }
+  .ls-message{ font-size: 11px; }
+  .ls-signature{ font-size: 16px; }
+
+  .ending-title{ font-size: 30px; }
+
+  .polaroid-item{ max-width: 120px; }
+}
+
+/* Tall/narrow phones (e.g. 390x844 iPhone 14) */
+@media (max-width: 420px) and (min-height: 700px){
+  .book{ aspect-ratio: 3 / 4.5; }
+}
+
+/* Short phones (e.g. older iPhones 320x568) */
+@media (max-width: 420px) and (max-height: 600px){
+  .book{ aspect-ratio: 3 / 4; }
 }
 
 /* ---------- TOUCH DEVICES ---------- */
@@ -1211,6 +1396,20 @@ body{
   .turn-zone:hover{ background: transparent; }
   .turn-zone.right:active{ background: rgba(201,162,39,0.08); }
   .turn-zone.left:active{ background: rgba(201,162,39,0.08); }
+
+  /* Better tap targets on touch */
+  .nav-btn{ min-height: 32px; }
+  .social-box{ min-height: 28px; }
+  .trav-card{ min-height: 30px; }
+}
+
+/* ---------- DARK MODE / OLED - prevent battery drain on animations ---------- */
+@media (prefers-reduced-motion: reduce){
+  *, *::before, *::after{
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
 }
 
 /* ============================================================
@@ -1237,7 +1436,7 @@ body{
 .travels-card {
   position: relative;
   width: 100%;
-  height: 100%;
+  min-height: 100%;
   padding: 16px 14px 10px;
   display: flex;
   flex-direction: column;
@@ -1945,7 +2144,7 @@ body{
 .journey-photo:nth-child(8) { animation: photoFadeIn 0.4s ease 0.8s both; }
 
 /* ---------- LOVE STORY ---------- */
-.lovestory-container { width: 100%; height: 100%; position: relative; background: linear-gradient(135deg, #fffaf5 0%, #ffeef2 100%); padding: 24px; overflow-y: auto; overflow-x: hidden; color: var(--ink); border-radius: 6px; box-shadow: inset 0 0 40px rgba(230, 160, 175, 0.2); }
+.lovestory-container { width: 100%; min-height: 100%; position: relative; background: linear-gradient(135deg, #fffaf5 0%, #ffeef2 100%); padding: 24px; overflow-y: auto; overflow-x: hidden; color: var(--ink); border-radius: 6px; box-shadow: inset 0 0 40px rgba(230, 160, 175, 0.2); -webkit-overflow-scrolling: touch; }
 
 /* Falling Hearts */
 .hearts-bg { position: absolute; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; overflow: hidden; z-index: 0; }
@@ -2022,11 +2221,11 @@ body{
 .ending-page {
   position: relative;
   width: 100%;
-  height: 100%;
+  min-height: 100%;
   display: flex;
   align-items: center;
   justify-content: center;
-  overflow: hidden;
+  overflow: visible;
 }
 
 /* Danish Flag as full background */
