@@ -440,6 +440,7 @@ function initGallery() {
       
       img.onload = function() {
         item.style.display = '';
+        item.style.animation = `polaroidFadeIn 0.6s cubic-bezier(0.34, 1.56, 0.64, 1) ${i * 0.1}s both`;
       };
       img.onerror = function() {
         item.remove();
