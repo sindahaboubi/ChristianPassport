@@ -1169,91 +1169,41 @@ body{
 
 /* ---------- RESPONSIVE ---------- */
 @media (max-width: 768px){
-  .navbar{ max-width: 90%; flex-wrap: wrap; justify-content: center; gap: 6px; }
-  .navbar-brand{ width: 100%; justify-content: center; }
-  .navbar-links{ justify-content: center; flex-wrap: wrap; }
+  .navbar{ max-width: 90%; }
   .cover-title{ font-size: 28px; }
   .cover-emblem{ width: 80px; height: 80px; }
   .cover-emblem svg{ width: 80px; height: 80px; }
   .cover-plane{ width: 48px; }
-  .info-photo-frame{ width: 160px; height: 180px; }
-  .info-details{ gap: 5px; }
-  .memory-grid{ gap: 4px; }
-  .memory-photo img{ aspect-ratio: 1 / 1; }
-  .gallery-header h2{ font-size: 24px; }
-  .gallery-header p{ font-size: 14px; }
-  .polaroid-item{ width: calc(45% - 10px); max-width: 130px; }
-  .polaroid-caption{ font-size: 11px; }
 }
 
 @media (max-width: 420px){
-  .navbar{ padding: 6px 10px; margin-bottom: 10px; max-width: 96%; }
-  .navbar-brand{ font-size: 10px; gap: 5px; margin-bottom: 2px; }
+  .navbar{ padding: 8px 12px; margin-bottom: 12px; }
+  .navbar-brand{ font-size: 11px; gap: 6px; }
   .navbar-brand svg{ width: 14px; height: 14px; }
-  .navbar-links{ gap: 3px; }
-  .nav-btn{ font-size: 8px; padding: 4px 8px; letter-spacing: 0.05em; }
+  .nav-btn{ font-size: 9px; padding: 5px 10px; }
 
-  #page-cover{ padding: 24px 16px; border-width: 5px; }
-  #page-cover::before{ inset: 8px; }
-  .cover-title{ font-size: 20px; letter-spacing: 0.08em; }
-  .cover-eyebrow{ font-size: 8px; letter-spacing: 0.2em; }
-  .cover-sub{ font-size: 9px; letter-spacing: 0.12em; }
-  .cover-emblem{ width: 56px; height: 56px; margin: 12px auto; }
-  .cover-emblem svg{ width: 56px; height: 56px; }
-  .cover-plane{ width: 34px; }
-  .cover-holder{ font-size: 11px; }
-  .cover-globe{ width: 50%; }
+  #page-cover{ padding: 32px 20px; border-width: 6px; }
+  #page-cover::before{ inset: 10px; }
+  .cover-title{ font-size: 22px; letter-spacing: 0.08em; }
+  .cover-eyebrow{ font-size: 9px; }
+  .cover-sub{ font-size: 10px; letter-spacing: 0.15em; }
+  .cover-emblem{ width: 64px; height: 64px; margin: 16px auto; }
+  .cover-emblem svg{ width: 64px; height: 64px; }
+  .cover-plane{ width: 40px; }
+  .cover-holder{ font-size: 12px; }
+  .cover-globe{ width: 55%; }
 
-  .info-card{ padding: 12px 10px 8px; }
-  .info-photo-frame{ width: 120px; height: 140px; }
-  .info-photo{ object-fit: cover; }
-  .info-profile{ margin-bottom: 4px; gap: 2px; }
-  .info-name h3{ font-size: 12px; letter-spacing: 0.04em; }
-  .info-flag-line{ font-size: 8px; gap: 4px; margin-top: 2px; }
-  .dk-flag-mini{ width: 16px; }
-  .info-travel-symbol{ font-size: 8px; }
-  .info-details{ gap: 4px; }
-  .info-label{ font-size: 8px; margin-bottom: 2px; }
-  .info-grid{ grid-template-columns: 1fr 1fr; gap: 4px; }
-  .info-item{ padding: 4px 6px; }
-  .info-item-label{ font-size: 7px; }
-  .info-item-value{ font-size: 10px; }
-  .info-social{ gap: 4px; }
-  .social-box{ padding: 4px 6px; font-size: 7px; gap: 2px; }
-  .social-box svg{ width: 12px; height: 12px; }
-  .social-label{ font-size: 7px; margin-bottom: 4px; }
-  .info-blue-diamond{ padding: 6px; }
-  .diamond-name{ font-size: 11px; }
-  .diamond-title{ font-size: 7px; }
-  .diamond-desc{ font-size: 8px; }
-  .diamond-icon{ font-size: 18px; }
-  .info-divider{ padding: 0 12px; margin: 1px 0; }
-  .memory-section{ margin-top: 2px; }
-  .memory-title{ font-size: 8px; margin-bottom: 4px; }
-  .memory-grid{ grid-template-columns: repeat(4, 1fr); gap: 3px; padding: 0 2px; }
-  .memory-photo img{ aspect-ratio: 1 / 1; }
-  .mrz{ font-size: 7px; padding: 6px 4px; letter-spacing: 0.8px; line-height: 1.6; }
+  .info-card{ padding: 16px 14px; }
+  .info-photo-frame{ width: 100px; height: 120px; }
+  .info-name h3{ font-size: 14px; }
+  .info-grid{ grid-template-columns: 1fr; gap: 6px; }
+  .info-social{ gap: 6px; }
+  .social-box{ padding: 4px 8px; font-size: 8px; gap: 3px; }
+  .info-blue-diamond{ padding: 10px 8px; }
+  .diamond-name{ font-size: 13px; }
+  .mrz{ font-size: 8px; padding: 8px 6px; letter-spacing: 1px; }
 
-  .gallery-header h2{ font-size: 20px; }
-  .gallery-header p{ font-size: 12px; }
-  .gallery-modal-content{ padding: 20px 12px; }
-  .gallery-close{ font-size: 28px; top: 10px; right: 12px; }
-  .gallery-grid{ gap: 8px; padding: 6px; }
-  .polaroid-item{ width: calc(45% - 8px); max-width: 110px; padding: 6px 6px 28px; }
-  .polaroid-caption{ font-size: 9px; bottom: 6px; }
-
-  .hint{ font-size: 8px; letter-spacing: 0.1em; }
-
-  .trav-card{ padding: 4px 6px; gap: 4px; }
-  .trav-flag{ width: 20px; height: 13px; }
-  .trav-names b{ font-size: 9px; }
-  .trav-names small{ font-size: 6.5px; }
-  .trav-n{ font-size: 7px; min-width: 10px; }
-  .trav-title{ font-size: 11px; }
-  .trav-sub{ font-size: 7px; }
-  .trav-hint-bar{ font-size: 6.5px; padding: 4px 6px; }
-  .journey-wall-grid{ gap: 3px; }
-  .journey-photo{ aspect-ratio: 1 / 1; }
+  .hint{ font-size: 8px; }
 }
 
 /* ---------- TOUCH DEVICES ---------- */
