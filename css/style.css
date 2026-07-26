@@ -136,7 +136,7 @@ body{
   -webkit-backface-visibility: hidden;
   transform-origin: left center;
   transform: rotateY(0deg);
-  transition: transform 0.35s cubic-bezier(0.77, 0, 0.175, 1);
+  transition: transform 0.7s cubic-bezier(0.25, 0.46, 0.45, 0.94);
   will-change: transform;
 }
 .page.active{
@@ -148,10 +148,71 @@ body{
 }
 /* Drop-shadow during animation for depth */
 .page.page-turning{
-  filter: drop-shadow(-12px 0 18px rgba(0,0,0,0.45));
+  filter: drop-shadow(-18px 0 25px rgba(0,0,0,0.5));
   transition:
-    transform 0.45s cubic-bezier(0.77, 0, 0.175, 1),
-    filter 0.45s ease;
+    transform 0.7s cubic-bezier(0.25, 0.46, 0.45, 0.94),
+    filter 0.7s ease;
+}
+
+/* ---------- PAGE FOLD LINE (appears during flip) ---------- */
+.page-fold{
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 3px;
+  left: 0;
+  background: linear-gradient(
+    180deg,
+    transparent 0%,
+    rgba(0,0,0,0.12) 15%,
+    rgba(0,0,0,0.2) 50%,
+    rgba(0,0,0,0.12) 85%,
+    transparent 100%
+  );
+  opacity: 0;
+  z-index: 60;
+  pointer-events: none;
+  transition: opacity 0.3s ease;
+}
+.page.page-turning .page-fold{
+  opacity: 1;
+}
+
+/* ---------- PAGE BEND GRADIENT (light reflection on curved paper) ---------- */
+.page-bend{
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    90deg,
+    rgba(255,255,255,0.18) 0%,
+    rgba(255,255,255,0.05) 8%,
+    transparent 20%
+  );
+  opacity: 0;
+  z-index: 58;
+  pointer-events: none;
+  transition: opacity 0.3s ease;
+}
+.page.page-turning .page-bend{
+  opacity: 1;
+}
+
+/* ---------- PAPER TEXTURE ON BACK ---------- */
+.page-back-texture{
+  position: absolute;
+  inset: 0;
+  background:
+    repeating-linear-gradient(
+      0deg,
+      transparent,
+      transparent 2px,
+      rgba(0,0,0,0.015) 2px,
+      rgba(0,0,0,0.015) 4px
+    );
+  backface-visibility: visible;
+  -webkit-backface-visibility: visible;
+  pointer-events: none;
+  z-index: -1;
 }
 
 /* ---------- PAGE TURN ZONES ---------- */
@@ -174,27 +235,33 @@ body{
   cursor: e-resize;
 }
 .turn-zone:hover{
-  background: rgba(201,162,39,0.04);
+  background: linear-gradient(90deg, rgba(201,162,39,0.06), transparent);
+}
+.turn-zone.right:hover{
+  background: linear-gradient(270deg, rgba(201,162,39,0.06), transparent);
 }
 
 /* ---------- PAGE CORNER CURL ---------- */
 .page-corner{
   position: absolute;
   bottom: 0;
-  width: 50px;
-  height: 50px;
+  width: 55px;
+  height: 55px;
   z-index: 65;
   pointer-events: none;
   opacity: 0;
-  transition: opacity 0.4s ease;
+  transition: opacity 0.5s ease, transform 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+  transform: scale(0.7);
 }
 .turn-zone.right:hover ~ .page-corner.right-corner,
 .page-corner.right-corner.visible{
   opacity: 1;
+  transform: scale(1);
 }
 .turn-zone.left:hover ~ .page-corner.left-corner,
 .page-corner.left-corner.visible{
   opacity: 1;
+  transform: scale(1);
 }
 .page-corner.right-corner{
   right: 0;
@@ -231,19 +298,19 @@ body{
   position: absolute;
   top: 0;
   bottom: 0;
-  width: 60%;
+  width: 70%;
   z-index: 55;
   pointer-events: none;
   opacity: 0;
-  transition: opacity 0.3s ease;
+  transition: opacity 0.4s ease;
 }
 .flip-shadow.left{
   left: 0;
-  background: linear-gradient(90deg, rgba(0,0,0,0.25) 0%, transparent 100%);
+  background: linear-gradient(90deg, rgba(0,0,0,0.35) 0%, rgba(0,0,0,0.1) 40%, transparent 100%);
 }
 .flip-shadow.right{
   right: 0;
-  background: linear-gradient(270deg, rgba(0,0,0,0.25) 0%, transparent 100%);
+  background: linear-gradient(270deg, rgba(0,0,0,0.35) 0%, rgba(0,0,0,0.1) 40%, transparent 100%);
 }
 .flip-shadow.active{
   opacity: 1;
@@ -265,6 +332,19 @@ body{
   opacity: 0.15;
   z-index: -1;
   pointer-events: none;
+}
+
+/* ---------- PAPER GRAIN TEXTURE ---------- */
+.book::after{
+  content:"";
+  position: absolute;
+  inset: 0;
+  border-radius: 6px;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.03'/%3E%3C/svg%3E");
+  pointer-events: none;
+  z-index: 100;
+  opacity: 0.5;
+  mix-blend-mode: multiply;
 }
 
 /* ---------- PAGE CURL SHADOW ---------- */

@@ -47,43 +47,45 @@ const navBtns = document.querySelectorAll('.nav-btn');
    NAVIGATION
    ============================================================ */
 
+// Inject fold + bend elements into each page
+pageEls.forEach(el => {
+  const fold = document.createElement('div');
+  fold.className = 'page-fold';
+  const bend = document.createElement('div');
+  bend.className = 'page-bend';
+  el.appendChild(fold);
+  el.appendChild(bend);
+});
+
 /** Set z-indices so the correct pages are visible */
 function setZIndices(){
   pageEls.forEach((el, i) => {
     if(i < currentPage){
-      // Already-flipped pages go to the back
       el.style.zIndex = 0;
     } else {
-      // Remaining pages: current page on top, then decreasing
       el.style.zIndex = pages.length - (i - currentPage);
     }
   });
 }
 
 function updateUI(){
-  // Active class (pointer-events)
   pageEls.forEach((el, i) => {
     el.classList.toggle('active', i === currentPage);
   });
 
-  // Flipped state: all pages before currentPage are flipped
   pageEls.forEach((el, i) => {
     el.classList.toggle('page-flipped', i < currentPage);
   });
 
-  // Z-indices
   setZIndices();
 
-  // Navbar active state
   navBtns.forEach((btn, i) => {
     btn.classList.toggle('active', i === currentPage);
   });
 
-  // Corner curls visibility
   cornerRight.classList.toggle('visible', currentPage < pages.length - 1);
   cornerLeft.classList.toggle('visible', currentPage > 0);
 
-  // Page stack layers
   const stackLayers = document.querySelectorAll('.page-stack-layer');
   stackLayers.forEach((layer, i) => {
     const remaining = pages.length - currentPage - 1;
@@ -97,43 +99,58 @@ function goToPage(targetIndex){
   isAnimating = true;
 
   const goingForward = targetIndex > currentPage;
+  const steps = Math.abs(targetIndex - currentPage);
+  const FLIP_DURATION = 700; // ms, matches CSS
+  const STAGGER = steps > 1 ? 120 : 0; // stagger between pages when flipping multiple
+
+  // Activate flip shadows
+  if(goingForward){
+    flipShadowRight.classList.add('active');
+  } else {
+    flipShadowLeft.classList.add('active');
+  }
 
   if(goingForward){
-    // Flip pages from currentPage to targetIndex-1
     for(let i = currentPage; i < targetIndex; i++){
       const el = pageEls[i];
-      el.style.zIndex = pages.length + 5 - (i - currentPage); // High z during flip
+      const delay = (i - currentPage) * STAGGER;
+      el.style.zIndex = pages.length + 5 - (i - currentPage);
       el.classList.remove('active');
-      el.classList.add('page-turning', 'page-flipped');
+      // Stagger: each page starts its flip slightly after the previous
+      setTimeout(() => {
+        el.classList.add('page-turning', 'page-flipped');
+      }, delay);
     }
-    // Reveal destination page
     pageEls[targetIndex].classList.add('active');
     pageEls[targetIndex].style.zIndex = pages.length;
 
   } else {
-    // Un-flip pages from targetIndex to currentPage-1
     pageEls[currentPage].classList.remove('active');
     for(let i = targetIndex; i < currentPage; i++){
       const el = pageEls[i];
-      el.style.zIndex = pages.length + 5 - (i - targetIndex); // High z during un-flip
-      el.classList.add('page-turning');
-      el.classList.remove('page-flipped');
+      const delay = (currentPage - 1 - i) * STAGGER;
+      el.style.zIndex = pages.length + 5 - (i - targetIndex);
+      setTimeout(() => {
+        el.classList.add('page-turning');
+        el.classList.remove('page-flipped');
+      }, delay);
     }
     pageEls[targetIndex].classList.add('active');
   }
 
+  const totalDuration = FLIP_DURATION + (steps - 1) * STAGGER;
   setTimeout(() => {
-    // Clean up animation classes
     pageEls.forEach(el => el.classList.remove('page-turning'));
+    flipShadowLeft.classList.remove('active');
+    flipShadowRight.classList.remove('active');
     currentPage = targetIndex;
     updateUI();
     isAnimating = false;
 
-    // Re-fit Leaflet map when map page becomes visible
     if(mapInstance && pages[currentPage] === 'map'){
       mapInstance.invalidateSize();
     }
-  }, 500);
+  }, totalDuration);
 }
 
 // Turn zones logic via book element so we don't block clicks on links

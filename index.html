@@ -55,14 +55,28 @@
     <!-- PAGE CORNER CURLS -->
     <div class="page-corner right-corner" id="corner-right">
       <svg viewBox="0 0 50 50" fill="none">
-        <path d="M50 0 L50 50 L0 50 Q30 50 40 40 Q50 30 50 0Z" fill="rgba(201,162,39,0.15)"/>
-        <path d="M50 50 Q35 48 42 38 Q50 28 50 0" stroke="rgba(201,162,39,0.3)" stroke-width="0.5" fill="none"/>
+        <defs>
+          <linearGradient id="curlGrad" x1="0" y1="0" x2="1" y2="1">
+            <stop offset="0%" stop-color="rgba(201,162,39,0.25)"/>
+            <stop offset="100%" stop-color="rgba(201,162,39,0.08)"/>
+          </linearGradient>
+        </defs>
+        <path d="M50 0 L50 50 L0 50 Q25 49 36 38 Q50 25 50 0Z" fill="url(#curlGrad)"/>
+        <path d="M50 50 Q32 48 40 36 Q50 24 50 0" stroke="rgba(201,162,39,0.35)" stroke-width="0.5" fill="none"/>
+        <path d="M50 50 Q38 49 44 42 Q50 32 50 10" stroke="rgba(201,162,39,0.15)" stroke-width="0.3" fill="none"/>
       </svg>
     </div>
     <div class="page-corner left-corner" id="corner-left">
       <svg viewBox="0 0 50 50" fill="none">
-        <path d="M0 0 L0 50 L50 50 Q20 50 10 40 Q0 30 0 0Z" fill="rgba(201,162,39,0.15)"/>
-        <path d="M0 50 Q15 48 8 38 Q0 28 0 0" stroke="rgba(201,162,39,0.3)" stroke-width="0.5" fill="none"/>
+        <defs>
+          <linearGradient id="curlGradL" x1="1" y1="0" x2="0" y2="1">
+            <stop offset="0%" stop-color="rgba(201,162,39,0.25)"/>
+            <stop offset="100%" stop-color="rgba(201,162,39,0.08)"/>
+          </linearGradient>
+        </defs>
+        <path d="M0 0 L0 50 L50 50 Q25 49 14 38 Q0 25 0 0Z" fill="url(#curlGradL)"/>
+        <path d="M0 50 Q18 48 10 36 Q0 24 0 0" stroke="rgba(201,162,39,0.35)" stroke-width="0.5" fill="none"/>
+        <path d="M0 50 Q12 49 6 42 Q0 32 0 10" stroke="rgba(201,162,39,0.15)" stroke-width="0.3" fill="none"/>
       </svg>
     </div>
 
