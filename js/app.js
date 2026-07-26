@@ -417,6 +417,29 @@ function initGallery() {
   closeBtn.addEventListener('click', closeModal);
   overlay.addEventListener('click', closeModal);
 
+  const preloadCache = {};
+  
+  function preloadImages(folderName) {
+    if(preloadCache[folderName]) return;
+    preloadCache[folderName] = true;
+    for(let i = 1; i <= 6; i++) {
+      const img = new Image();
+      img.src = `images/${folderName}/${i}.jpg`;
+    }
+  }
+
+  document.addEventListener('mouseover', (e) => {
+    let target = e.target;
+    while(target && target !== document) {
+      if(target.classList && target.classList.contains('trav-card')) {
+        const placeName = target.querySelector('.trav-names b');
+        if(placeName) preloadImages(placeName.textContent.trim());
+        return;
+      }
+      target = target.parentNode;
+    }
+  });
+
   // We use event delegation on the document for clicks on destination cards
   document.addEventListener('click', (e) => {
     // Traverse up to find if a .trav-card was clicked
@@ -428,7 +451,7 @@ function initGallery() {
         if(placeName) {
           const placeText = placeName.textContent.trim();
           const subText = countryName ? countryName.textContent.trim() : '';
-          // Open gallery for any clicked destination
+          preloadImages(placeText);
           openGallery(placeText, subText);
           return;
         }
@@ -443,17 +466,17 @@ function initGallery() {
     
     grid.innerHTML = '';
     const items = [];
-    let loaded = 0;
-    const total = 10;
+    let stopTrying = false;
+    let revealIndex = 0;
+    const MAX_IMAGES = 6;
     
-    for(let i = 1; i <= total; i++) {
+    for(let i = 1; i <= MAX_IMAGES; i++) {
       const item = document.createElement('div');
       item.className = 'polaroid-item';
+      item.dataset.index = i;
       
       const img = document.createElement('img');
-      img.src = `images/${folderName}/${i}.jpg`;
       img.alt = `${folderName} Photo ${i}`;
-      img.loading = 'eager';
       
       const caption = document.createElement('div');
       caption.className = 'polaroid-caption';
@@ -464,23 +487,33 @@ function initGallery() {
       grid.appendChild(item);
       items.push(item);
       
-      img.onload = img.onerror = function() {
-        loaded++;
-        if(loaded === total) revealSequentially(items);
+      if(stopTrying) {
+        item.style.display = 'none';
+        continue;
+      }
+      
+      img.src = `images/${folderName}/${i}.jpg`;
+      img.loading = 'eager';
+      
+      img.onload = function() {
+        setTimeout(() => {
+          item.style.transform = `rotate(${(Math.random() * 12 - 6).toFixed(1)}deg)`;
+          item.classList.add('visible');
+        }, revealIndex * 80);
+        revealIndex++;
+      };
+      
+      img.onerror = function() {
+        stopTrying = true;
+        item.style.display = 'none';
+        for(let j = i + 1; j <= MAX_IMAGES; j++) {
+          const later = items[j - 1];
+          if(later) later.style.display = 'none';
+        }
       };
     }
     
     modal.classList.add('active');
-    
-    function revealSequentially(items) {
-      const validItems = items.filter(el => el.querySelector('img').complete && el.querySelector('img').naturalWidth > 0);
-      validItems.forEach((item, idx) => {
-        setTimeout(() => {
-          item.style.transform = `rotate(${(Math.random() * 12 - 6).toFixed(1)}deg)`;
-          item.classList.add('visible');
-        }, idx * 100);
-      });
-    }
   }
 }
 
