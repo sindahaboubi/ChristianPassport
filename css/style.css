@@ -142,6 +142,12 @@ body{
 .page.active{
   pointer-events: auto;
 }
+/* Performance: pause all CSS animations on hidden pages */
+.page:not(.active) * { animation: none !important; }
+/* Respect users who prefer reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation: none !important; transition: none !important; }
+}
 /* Page is flipped (turned past) */
 .page.page-flipped{
   transform: rotateY(-180deg);
@@ -412,6 +418,13 @@ body{
   z-index: 2;
   filter: drop-shadow(0 2px 4px rgba(0,0,0,0.3));
   color:rgb(204, 204, 204);
+  animation: cover-plane-glide 5s ease-in-out infinite;
+}
+@keyframes cover-plane-glide {
+  0%, 100% { transform: translate(-50%, -50%) translateY(0) rotate(-6deg); }
+  25%      { transform: translate(-50%, -50%) translate(-2px, -7px) rotate(7deg); }
+  50%      { transform: translate(-50%, -50%) translate(3px, -3px) rotate(-3deg); }
+  75%      { transform: translate(-50%, -50%) translate(-3px, -5px) rotate(5deg); }
 }
 .cover-title{
   color: var(--cream);
@@ -1480,7 +1493,6 @@ body{
     inset 0 1px 0 rgba(255,255,255,0.9);
   transition: all 0.25s ease;
   cursor: default;
-  backdrop-filter: blur(4px);
   max-width: 100%;
 }
 .trav-card:hover {
@@ -1990,7 +2002,7 @@ body{
   position: relative;
   border-radius: 5px;
   overflow: hidden;
-  aspect-ratio: 4/3;
+  aspect-ratio: 1 / 1;
   background: rgba(0,0,0,0.1);
   box-shadow:
     0 2px 8px rgba(0,0,0,0.18),
@@ -2013,9 +2025,19 @@ body{
   object-fit: cover;
   display: block;
   transition: transform 0.5s ease;
+  animation: journeyZoom 12s ease-in-out infinite;
 }
+@keyframes journeyZoom {
+  0%, 100% { transform: scale(1) translate(0, 0); }
+  50%      { transform: scale(1.12) translate(1.5%, -1.5%); }
+}
+.journey-photo:nth-child(1) img { animation-delay: 0s; }
+.journey-photo:nth-child(2) img { animation-delay: 3s; }
+.journey-photo:nth-child(3) img { animation-delay: 6s; }
+.journey-photo:nth-child(4) img { animation-delay: 9s; }
 
 .journey-photo:hover {
+  animation: none;
   transform: scale(1.04) translateY(-2px);
   box-shadow:
     0 8px 20px rgba(0,0,0,0.3),
@@ -2024,6 +2046,7 @@ body{
 }
 
 .journey-photo:hover img {
+  animation: none;
   transform: scale(1.08);
 }
 
@@ -2033,14 +2056,20 @@ body{
   to   { opacity: 1; transform: translateY(0); }
 }
 
-.journey-photo:nth-child(1) { animation: photoFadeIn 0.4s ease 0.1s both; }
-.journey-photo:nth-child(2) { animation: photoFadeIn 0.4s ease 0.2s both; }
-.journey-photo:nth-child(3) { animation: photoFadeIn 0.4s ease 0.3s both; }
-.journey-photo:nth-child(4) { animation: photoFadeIn 0.4s ease 0.4s both; }
-.journey-photo:nth-child(5) { animation: photoFadeIn 0.4s ease 0.5s both; }
-.journey-photo:nth-child(6) { animation: photoFadeIn 0.4s ease 0.6s both; }
-.journey-photo:nth-child(7) { animation: photoFadeIn 0.4s ease 0.7s both; }
-.journey-photo:nth-child(8) { animation: photoFadeIn 0.4s ease 0.8s both; }
+/* Gentle floating so the photos never go off the page */
+@keyframes photoFloat {
+  0%, 100% { transform: translateY(0); }
+  50%      { transform: translateY(-3px); }
+}
+
+.journey-photo:nth-child(1) { animation: photoFadeIn 0.4s ease 0.1s both, photoFloat 5.5s ease-in-out 0.3s infinite; }
+.journey-photo:nth-child(2) { animation: photoFadeIn 0.4s ease 0.2s both, photoFloat 6.5s ease-in-out 1.2s infinite; }
+.journey-photo:nth-child(3) { animation: photoFadeIn 0.4s ease 0.3s both, photoFloat 5s ease-in-out 2.1s infinite; }
+.journey-photo:nth-child(4) { animation: photoFadeIn 0.4s ease 0.4s both, photoFloat 6s ease-in-out 3s infinite; }
+.journey-photo:nth-child(5) { animation: photoFadeIn 0.4s ease 0.5s both, photoFloat 5.5s ease-in-out 0.9s infinite; }
+.journey-photo:nth-child(6) { animation: photoFadeIn 0.4s ease 0.6s both, photoFloat 6.5s ease-in-out 1.8s infinite; }
+.journey-photo:nth-child(7) { animation: photoFadeIn 0.4s ease 0.7s both, photoFloat 5s ease-in-out 2.7s infinite; }
+.journey-photo:nth-child(8) { animation: photoFadeIn 0.4s ease 0.8s both, photoFloat 6s ease-in-out 3.6s infinite; }
 
 /* ---------- LOVE STORY ---------- */
 .lovestory-container { width: 100%; height: 100%; position: relative; background: linear-gradient(135deg, #fffaf5 0%, #ffeef2 100%); padding: 24px; overflow-y: auto; overflow-x: hidden; color: var(--ink); border-radius: 6px; box-shadow: inset 0 0 40px rgba(230, 160, 175, 0.2); }
@@ -2101,18 +2130,29 @@ body{
 .ls-signature { font-family: 'Caveat', cursive; font-size: 24px; color: #8a2e2e; margin-top: 24px !important; transform: rotate(-2deg); display: inline-block; }
 
 /* Photo Gallery */
-.ls-gallery { display: flex; flex-direction: row; justify-content: center; align-items: center; flex-wrap: wrap; gap: 24px; margin-top: 30px; padding: 10px; perspective: 1000px; }
-.ls-img-wrap { border: 8px solid #fff; border-bottom-width: 32px; box-shadow: 0 10px 25px rgba(0,0,0,0.15); transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); background: #fff; display: flex; flex-direction: column; align-items: center; justify-content: center; position: relative; max-width: 180px; width: 45%; }
-.ls-img-wrap.img-1 { transform: rotate(-6deg) translateY(10px); z-index: 1; }
-.ls-img-wrap.img-2 { transform: rotate(5deg) translateY(-5px); z-index: 2; }
+.ls-gallery { display: grid; grid-template-columns: repeat(6, 1fr); gap: 14px; margin-top: 24px; padding: 10px; perspective: 1000px; }
+.ls-img-wrap { --ls-rot: -4deg; --ls-dy: 8px; border: 6px solid #fff; border-bottom-width: 24px; box-shadow: 0 10px 25px rgba(0,0,0,0.15); transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); background: #fff; display: flex; flex-direction: column; align-items: center; justify-content: center; position: relative; max-width: none; width: 100%; animation: lsFloat 5s ease-in-out infinite; }
+.ls-img-wrap.img-1 { grid-column: span 3; --ls-rot: -4deg; --ls-dy: 8px; animation-duration: 5s; animation-delay: 0s; z-index: 1; }
+.ls-img-wrap.img-2 { grid-column: span 3; --ls-rot: 3deg; --ls-dy: -4px; animation-duration: 5.6s; animation-delay: 0.4s; z-index: 2; }
+.ls-img-wrap.img-3 { grid-column: span 2; --ls-rot: 2deg; --ls-dy: 10px; animation-duration: 4.8s; animation-delay: 0.9s; z-index: 1; }
+.ls-img-wrap.img-4 { grid-column: span 2; --ls-rot: -3deg; --ls-dy: 2px; animation-duration: 5.4s; animation-delay: 1.3s; z-index: 2; }
+.ls-img-wrap.img-5 { grid-column: span 2; --ls-rot: 4deg; --ls-dy: 12px; animation-duration: 6s; animation-delay: 1.8s; z-index: 1; }
 
-.ls-img-wrap:hover { transform: scale(1.1) rotate(0) translateY(-10px) translateZ(20px); box-shadow: 0 15px 35px rgba(0,0,0,0.25); z-index: 10; }
-.ls-img-wrap img { width: 100%; height: auto; display: block; object-fit: cover; aspect-ratio: 1 / 1.1; }
-.ls-img-caption { font-family: 'Caveat', cursive; font-size: 20px; color: #444; position: absolute; bottom: -28px; width: 100%; text-align: center; font-weight: 700; letter-spacing: 1px; }
+.ls-img-wrap:hover { animation-play-state: paused; transform: scale(1.08) rotate(0) translateY(-10px) translateZ(20px); box-shadow: 0 15px 35px rgba(0,0,0,0.25); z-index: 10; }
+.ls-img-wrap img { width: 100%; height: auto; display: block; object-fit: cover; aspect-ratio: 1 / 1; }
+.ls-img-caption { font-family: 'Caveat', cursive; font-size: 18px; color: #444; position: absolute; bottom: -22px; width: 100%; text-align: center; font-weight: 700; letter-spacing: 1px; }
+
+@keyframes lsFloat {
+  0%, 100% { transform: rotate(var(--ls-rot)) translateY(var(--ls-dy)); }
+  50% { transform: rotate(calc(var(--ls-rot) - 1.5deg)) translateY(calc(var(--ls-dy) - 10px)); }
+}
 
 /* Masking Tape */
-.tape { position: absolute; width: 60px; height: 16px; background: rgba(255, 255, 255, 0.4); box-shadow: 0 1px 3px rgba(0,0,0,0.1); top: -8px; left: 50%; transform: translateX(-50%) rotate(-2deg); z-index: 5; backdrop-filter: blur(2px); border-left: 2px dashed rgba(0,0,0,0.05); border-right: 2px dashed rgba(0,0,0,0.05); }
+.tape { position: absolute; width: 52px; height: 14px; background: rgba(255, 255, 255, 0.4); box-shadow: 0 1px 3px rgba(0,0,0,0.1); top: -7px; left: 50%; transform: translateX(-50%) rotate(-2deg); z-index: 5; border-left: 2px dashed rgba(0,0,0,0.05); border-right: 2px dashed rgba(0,0,0,0.05); }
 .img-2 .tape { transform: translateX(-50%) rotate(3deg); }
+.img-3 .tape { transform: translateX(-50%) rotate(-4deg); }
+.img-4 .tape { transform: translateX(-50%) rotate(2deg); }
+.img-5 .tape { transform: translateX(-50%) rotate(-3deg); }
 
 /* ---------- ENDING PAGE ---------- */
 #page-ending { overflow: hidden; }
