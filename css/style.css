@@ -2072,7 +2072,21 @@ body{
 .journey-photo:nth-child(8) { animation: photoFadeIn 0.4s ease 0.8s both, photoFloat 6s ease-in-out 3.6s infinite; }
 
 /* ---------- LOVE STORY ---------- */
+/* Fixed frame on the page element so it spans the full book height even when the lovestory container scrolls internally */
+#page-lovestory::before {
+  content: "";
+  position: absolute;
+  inset: 8px;
+  border: 1.5px solid rgba(26,58,92,0.3);
+  border-radius: 3px;
+  pointer-events: none;
+  z-index: 1;
+}
 .lovestory-container { width: 100%; height: 100%; position: relative; background: linear-gradient(135deg, #fffaf5 0%, #ffeef2 100%); padding: 24px; overflow-y: auto; overflow-x: hidden; color: var(--ink); border-radius: 6px; box-shadow: inset 0 0 40px rgba(230, 160, 175, 0.2); }
+/* Disable the broken container border that only covers the visible scroll area */
+.lovestory-container.paper::after {
+  content: none;
+}
 
 /* Falling Hearts */
 .hearts-bg { position: absolute; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; overflow: hidden; z-index: 0; }
